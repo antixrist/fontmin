@@ -22,14 +22,6 @@ var tpl = fs.readFileSync(
 ).toString('utf-8');
 
 /**
- * renderCss
- *
- * @type {function}
- */
-var renderCss = _.template(tpl);
-
-
-/**
  * listUnicode
  *
  * @param  {Array} unicode unicode
@@ -82,11 +74,19 @@ function getGlyfList(ttf) {
  * @param {boolean=} opts.base64    inject base64
  * @param {string=} opts.iconPrefix icon prefix
  * @param {string=} opts.fontFamily fontFamily
+ * @param {string=} opts.tpl        lodash-template for generate css
  * @return {Object} stream.Transform instance
  * @api public
  */
 module.exports = function (opts) {
     opts = opts || {};
+
+    /**
+     * renderCss
+     *
+     * @type {function}
+     */
+    var renderCss = _.template(opts.tpl || tpl);
 
     return through.ctor({
         objectMode: true
